@@ -9,7 +9,7 @@ use std::{
 };
 
 fn main() {
-    let ref home_dir = String::from(env!("HOME"));
+    let ref home_dir = *option_env!("HOME").unwrap_or("");
     let file_name = String::from(".git-favorite-branch-config");
     let path_raw: String;
     let default_path = match home_dir.len().cmp(&0) {
