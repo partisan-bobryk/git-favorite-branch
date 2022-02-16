@@ -4,11 +4,25 @@ use std::{
     collections::HashMap,
     fs::File,
     io::{BufReader, BufWriter},
+    path::Path,
     process::{exit, Command, ExitStatus},
 };
 
 fn main() {
-    let mut config = Config::new("/home/maksyadvinskyy/.git-favorite-branch-config");
+    let ref home_dir = String::from(env!("HOME"));
+    let file_name = String::from(".git-favorite-branch-config");
+    let path_raw: String;
+    let default_path = match home_dir.len().cmp(&0) {
+        std::cmp::Ordering::Greater => {
+            path_raw = format!("{}/{}", home_dir, file_name).to_string();
+            Path::new(&path_raw)
+        }
+        _ => {
+            path_raw = format!("./{}", file_name).to_string();
+            Path::new(&path_raw)
+        }
+    };
+    let mut config = Config::new(default_path.to_str().unwrap());
     config.load();
     let matches = App::new("gfb")
         .about("Quickly switch between branches")
@@ -109,24 +123,34 @@ impl Config {
     }
 
     fn save(&self) {
-        let ref file_path = self.path_to_config;
-        let file = File::create(file_path)
-            .expect(format!("Unable to create config file in {}", file_path).as_str());
+        let ref file_path = Path::new(&self.path_to_config);
+        let file = File::create(file_path).expect(
+            format!(
+                "Unable to create config file in {}",
+                file_path.to_str().unwrap()
+            )
+            .as_str(),
+        );
         let writer = BufWriter::new(file);
         serde_json::to_writer_pretty(writer, &self).expect("Failed to save config")
     }
 
     fn load(&mut self) {
-        let ref file_path = self.path_to_config;
+        let ref file_path = Path::new(&self.path_to_config);
         let file = match File::open(file_path) {
             Err(err) => {
                 println!("Failed to open config: {:?}", err);
-                println!("Creating new config {}", file_path);
-                let new_file = File::create(file_path)
-                    .expect(format!("Unable to create config file in {}", file_path).as_str());
+                println!("Creating new config {}", file_path.to_str().unwrap());
+                let new_file = File::create(file_path).expect(
+                    format!(
+                        "Unable to create config file in {}",
+                        file_path.to_str().unwrap()
+                    )
+                    .as_str(),
+                );
                 let writer = BufWriter::new(&new_file);
                 serde_json::to_writer_pretty(writer, &self).expect("Failed to save config");
-                new_file
+                File::open(file_path).expect("Unable to open newly created file")
             }
             Ok(file) => file,
         };
