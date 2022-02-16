@@ -18,13 +18,18 @@ Installation Instructions
 git clone git@github.com:VeprUA/git-favorite-branch.git
 ```
 
-2. With the help of cargo make your executable visible to your environment
+2. Build
+```bash
+cargo build
+```
+
+3. With the help of cargo make your executable visible to your environment
 
 ```bash
 cargo install --path .
 ```
 
-3. Run the executable
+4. Run the executable
 
 ```bash
 gfb
