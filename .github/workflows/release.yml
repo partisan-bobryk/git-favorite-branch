@@ -32,6 +32,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
             name: "gfb-${{matrix.os}}"
-            path: target/release/(gfb).*
+            path: target/release/
             if-no-files-found: warn
     
