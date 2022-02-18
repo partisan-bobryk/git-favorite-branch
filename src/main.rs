@@ -2,6 +2,7 @@ use clap::{arg, App, AppSettings};
 use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
+    env,
     fs::File,
     io::{BufReader, BufWriter},
     path::Path,
@@ -9,7 +10,7 @@ use std::{
 };
 
 fn main() {
-    let ref home_dir = *option_env!("HOME").unwrap_or("");
+    let ref home_dir = env::var("HOME").unwrap_or("".to_string());
     let file_name = String::from(".git-favorite-branch-config");
     let path_raw: String;
     let default_path = match home_dir.len().cmp(&0) {
