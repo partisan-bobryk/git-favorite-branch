@@ -49,6 +49,7 @@ SUBCOMMANDS:
     add  <SHORTCUT_KEY> [BRANCH_NAME] Add current branch to favorites
     del  <SHORTCUT_KEY>               Delete favorited branch
     use  <SHORTCUT_KEY>               Switch to a different branch
+    prnt <SHORTCUT_KEY>               Print out the favorited branch name
     clr                               Clear all saved favorites
     ls                                Display all favorited branches and their keys
     help                              Print this message or the help of the given subcommand(s)

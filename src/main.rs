@@ -37,6 +37,7 @@ fn main() {
         )
         .subcommand(App::new("use").about("Switch to a different branch").arg(arg!(<SHORTCUT_KEY> "Key used when saving the branch")).setting(AppSettings::ArgRequiredElseHelp))
         .subcommand(App::new("del").about("Delete favorited branch").arg(arg!(<SHORTCUT_KEY> "Key used when saving the branch")).setting(AppSettings::ArgRequiredElseHelp))
+        .subcommand(App::new("prnt").about("Print a favorited branch").arg(arg!(<SHORTCUT_KEY> "Key used when saving the branch")).setting(AppSettings::ArgRequiredElseHelp))
         .subcommand(App::new("clr").about("Clear all saved favorites"))
         .subcommand(App::new("ls").about("Display all favorited branches and their keys"))
         .get_matches();
@@ -88,6 +89,14 @@ fn main() {
         Some(("clr", _)) => {
             config.state = HashMap::new();
             config.save()
+        }
+        Some(("prnt", sub_matches)) => {
+            let key = sub_matches
+                .value_of("SHORTCUT_KEY")
+                .expect("required")
+                .trim();
+            let branch_name = config.state.get(key).unwrap();
+            println!("{}", branch_name);
         }
         _ => unreachable!(),
     }
