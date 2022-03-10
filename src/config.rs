@@ -9,15 +9,23 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Config {
+    #[serde(default)]
     pub state: HashMap<String, String>,
+    #[serde(default)]
     pub path_to_config: String,
+    #[serde(default)]
+    pub version: String,
+    #[serde(default)]
+    pub target: String,
 }
 
 impl Config {
-    pub fn new(path: &str, state: HashMap<String, String>) -> Self {
+    pub fn new(path: &str, state: HashMap<String, String>, target: &str) -> Self {
         Config {
             state,
             path_to_config: path.to_string(),
+            version: String::from("v0.1.1"),
+            target: target.to_string(),
         }
     }
 

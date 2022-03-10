@@ -22,6 +22,7 @@ impl Args {
         .subcommand(App::new("prnt").about("Print a favorited branch").arg(arg!(<SHORTCUT_KEY> "Key used when saving the branch")).setting(AppSettings::ArgRequiredElseHelp))
         .subcommand(App::new("clr").about("Clear all saved favorites"))
         .subcommand(App::new("ls").about("Display all favorited branches and their keys"))
+        .subcommand(App::new("install").about("Install provided version of gfb").arg(arg!(<VERSION> "Version number in a semver format. ie v0.1.0")).setting(AppSettings::ArgRequiredElseHelp))
         .get_matches();
 
         matches

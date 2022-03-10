@@ -1,4 +1,7 @@
-use std::{collections::HashMap, process::exit};
+use std::{
+    collections::HashMap,
+    process::{exit, Command, ExitStatus},
+};
 
 use crate::{config::Config, git_helpers::switch_branch};
 
@@ -42,5 +45,20 @@ impl CommandManager {
     pub fn print_branch_name(&self, key: String) {
         let branch_name = self.config.state.get(&key).unwrap();
         println!("{}", branch_name);
+    }
+
+    pub fn install_binary(&self, version: String) -> Result<ExitStatus, std::io::Error> {
+        if version.eq(&self.config.version) {
+            println!("Running on the latest version: {}", version);
+            exit(0)
+        }
+
+        Command::new("sh")
+            .arg("-c")
+            .arg(format!(
+                "wget -qO- https://github.com/VeprUA/git-favorite-branch/blob/main/bin/install.sh | bash {:?} {:?}",
+                version, self.config.target
+            ))
+            .status()
     }
 }

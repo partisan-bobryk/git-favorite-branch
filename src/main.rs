@@ -21,7 +21,8 @@ fn get_default_path() -> String {
 
 fn main() {
     let default_path = get_default_path();
-    let mut config = Config::new(&default_path, HashMap::new());
+    let build_target = option_env!("BUILD_TARGET").unwrap_or("");
+    let mut config = Config::new(&default_path, HashMap::new(), &build_target);
     config.load();
 
     let mut cmd_manager = CommandManager { config };
@@ -39,7 +40,8 @@ fn main() {
                 .expect("default branch required")
                 .trim()
                 .to_string();
-            cmd_manager.add_branch(key, branch)
+
+            cmd_manager.add_branch(key, branch);
         }
         Some(("use", sub_matches)) => {
             let key = sub_matches
@@ -47,7 +49,8 @@ fn main() {
                 .expect("required")
                 .trim()
                 .to_string();
-            cmd_manager.switch_to_branch(key)
+
+            cmd_manager.switch_to_branch(key);
         }
         Some(("del", sub_matches)) => {
             let key = sub_matches
@@ -55,7 +58,8 @@ fn main() {
                 .expect("required")
                 .trim()
                 .to_string();
-            cmd_manager.delete_branch(key)
+
+            cmd_manager.delete_branch(key);
         }
         Some(("ls", _)) => cmd_manager.list_branches(),
         Some(("clr", _)) => cmd_manager.clear_branches(),
@@ -66,7 +70,16 @@ fn main() {
                 .trim()
                 .to_string();
 
-            cmd_manager.print_branch_name(key)
+            cmd_manager.print_branch_name(key);
+        }
+        Some(("install", sub_matches)) => {
+            let version = sub_matches
+                .value_of("VERSION")
+                .expect("version number is required")
+                .trim()
+                .to_string();
+
+            cmd_manager.install_binary(version).unwrap();
         }
         _ => println!("Command doesn't exist"),
     }
