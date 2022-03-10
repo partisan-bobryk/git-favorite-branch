@@ -50,7 +50,9 @@ impl Config {
         let config: Config = serde_json::from_reader(reader).expect("Failed to parse config");
 
         self.state = config.state;
-        self.path_to_config = config.path_to_config
+        self.path_to_config = config.path_to_config;
+        self.version = config.version;
+        self.target = config.target;
     }
 
     fn create_file_if_none_exist(&self, formatted_file_path: &Path) -> File {
