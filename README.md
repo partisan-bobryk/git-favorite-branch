@@ -16,10 +16,10 @@ While building the distribution, we leverage GH Actions to build on multiple OS.
 All releases will be posted on the github repo. To install the cli for the first time run the following command.
 
 ```bash
-wget -qO- https://github.com/VeprUA/git-favorite-branch/blob/main/bin/install.sh | sh v0.1.1 BUILD_TARGET
+wget -qO- https://github.com/VeprUA/git-favorite-branch/blob/main/bin/install.sh | sh v0.2.0 BUILD_TARGET
 ```
 
-You are also more than welcome and download the binary zip from the release page. Just make sure to put it in the `/usr/local/revent-studio/gfb-v0.1.1/` directory. That way an update can be done cleanly.
+You are also more than welcome and download the binary zip from the release page. Just make sure to put it in the `/usr/local/revent-studio/gfb-v0.2.0/` directory. That way an update can be done cleanly.
 
 Here is a helper script once you download your zip:
 
@@ -29,13 +29,13 @@ unzip gfb-BUILD_TARGET.zip
 chmod +x gfb-BUILD_TARGET/gfb
 
 # Create an install directory
-sudo mkdir -p /usr/local/revent-studio/gfb-v0.1.1
+sudo mkdir -p /usr/local/revent-studio/gfb-v0.2.0
 
 # Move the binary to the install directory
-sudo mv gfb-BUILD_TARGET/gfb /usr/local/revent-studio/gfb-v0.1.1/gfb
+sudo mv gfb-BUILD_TARGET/gfb /usr/local/revent-studio/gfb-v0.2.0/gfb
 
 # Create a symlink in the bin directroy
-sudo ln -s /usr/local/revent-studio/gfb-v0.1.1/gfb /usr/local/bin/gfb
+sudo ln -s /usr/local/revent-studio/gfb-v0.2.0/gfb /usr/local/bin/gfb
 
 ```
 
@@ -46,7 +46,7 @@ Similar directions are used in the `bin/install.sh` file. You can always use tha
 It is very simple to update the current binary. You don't need to provide a build target as that is baked in during the build process.
 
 ```bash
- gfb install v0.1.1
+ gfb install v0.2.0
 ```
 
 ## Uninstall
@@ -106,7 +106,7 @@ SUBCOMMANDS:
     del     <SHORTCUT_KEY>               Delete favorited branch
     use     <SHORTCUT_KEY>               Switch to a different branch
     prnt    <SHORTCUT_KEY>               Print out the favorited branch name
-    install <VERSION>                    Install specific version of the binary. Provide version number as a semver. ie v0.1.1
+    install <VERSION>                    Install specific version of the binary. Provide version number as a semver. ie v0.2.0
     clr                                  Clear all saved favorites
     ls                                   Display all favorited branches and their keys
     help                                 Print this message or the help of the given subcommand(s)
