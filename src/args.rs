@@ -23,6 +23,7 @@ impl Args {
         .subcommand(App::new("clr").about("Clear all saved favorites"))
         .subcommand(App::new("ls").about("Display all favorited branches and their keys"))
         .subcommand(App::new("install").about("Install provided version of gfb").arg(arg!(<VERSION> "Version number in a semver format. ie v0.1.0")).setting(AppSettings::ArgRequiredElseHelp))
+        .subcommand(App::new("version").about("Display the current version of the binary"))
         .get_matches();
 
         matches

@@ -63,6 +63,7 @@ fn main() {
         }
         Some(("ls", _)) => cmd_manager.list_branches(),
         Some(("clr", _)) => cmd_manager.clear_branches(),
+        Some(("version", _)) => cmd_manager.get_app_version(),
         Some(("prnt", sub_matches)) => {
             let key = sub_matches
                 .value_of("SHORTCUT_KEY")

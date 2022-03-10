@@ -47,6 +47,10 @@ impl CommandManager {
         println!("{}", branch_name);
     }
 
+    pub fn get_app_version(&self) {
+        println!("{}", self.config.version);
+    }
+
     pub fn install_binary(&self, version: String) -> Result<ExitStatus, std::io::Error> {
         if version.eq(&self.config.version) {
             println!("Running on the latest version: {}", version);

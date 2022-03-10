@@ -24,7 +24,7 @@ impl Config {
         Config {
             state,
             path_to_config: path.to_string(),
-            version: String::from("v0.2.0"),
+            version: String::from("v0.2.2"),
             target: target.to_string(),
         }
     }
@@ -51,7 +51,6 @@ impl Config {
 
         self.state = config.state;
         self.path_to_config = config.path_to_config;
-        self.version = config.version;
         self.target = config.target;
     }
 
