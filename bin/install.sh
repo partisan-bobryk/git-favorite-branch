@@ -15,10 +15,10 @@ sudo mkdir -p $INSTALL_DIR
 wget "https://github.com/VeprUA/git-favorite-branch/releases/download/$VERSION/gfb-$TARGET.zip" -O $TMP_FILE
 unzip -d $TMP_DIR $TMP_FILE 
 
-chmod +x "$TMP_DIR/gfb-$TARGET/gfb"
+chmod +x "$TMP_DIR/gfb"
 
 # Installation
-sudo mv "$TMP_DIR/gfb-$TARGET/gfb" $INSTALL_BIN
+sudo mv "$TMP_DIR/gfb" $INSTALL_BIN
 sudo ln -s $INSTALL_BIN /usr/local/bin/gfb
 
 # Clean up

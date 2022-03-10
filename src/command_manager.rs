@@ -56,7 +56,7 @@ impl CommandManager {
         Command::new("sh")
             .arg("-c")
             .arg(format!(
-                "wget -qO- https://github.com/VeprUA/git-favorite-branch/blob/main/bin/install.sh | sh {:?} {:?}",
+                "wget -qO- https://raw.githubusercontent.com/VeprUA/git-favorite-branch/main/bin/install.sh | sh -s {:?} {:?}",
                 version, self.config.target
             ))
             .status()
