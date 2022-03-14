@@ -2,21 +2,52 @@
 
 Quickly manage git branches during intensive multi-tasking work environments
 
-### Build Targets
+## Usage
 
-While building the distribution, we leverage GH Actions to build on multiple OS. Here are all of the available build targets. **Replace `BUILD_TARGET` keyword with the target that best suites your operating system**
+You can always run `gfb <SUBCOMMAND> -h` to get the latest usage.
 
-- `macOS_latest`
-- `ubuntu-latest`
+```
+gfb <SUBCOMMAND>
+
+OPTIONS:
+    -h, --help    Print help information
+
+SUBCOMMANDS:
+    add     <SHORTCUT_KEY> [BRANCH_NAME] Add current branch to favorites
+    del     <SHORTCUT_KEY>               Delete favorited branch
+    use     <SHORTCUT_KEY>               Switch to a different branch
+    prnt    <SHORTCUT_KEY>               Print out the favorited branch name
+    install [VERSION]                    Install the latest version of gfb. You can also provide a different version using a `v0.2.2` format.
+    version                              Display the current binary version
+    clr                                  Clear all saved favorites
+    ls                                   Display all favorited branches and their keys
+    help                                 Print this message or the help of the given subcommand(s)
+```
+
+### Environment Variables
+
+| Variable Name         | Type      | Description                                                                                                                                                                            |
+| --------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GFB_NO_UPDATE_CHECK` | `boolean` | Silence messages about updates.                                                                                                                                                        |
+| `BUILD_TARGET`        | `string`  | An OS build target specified by GitHub Actions. Possible values are `macOS_latest` and `ubuntu_latest`. However, this value is only needed if you are building the binary from source. |
 
 ## Install
+
+### Build Targets
+
+While building the distribution, we leverage GH Actions to build on multiple OS. Here are all of the available build targets. **Replace `<target_string>` keyword with the target that best suites your operating system**
+
+- `macOS_latest`
+- `ubuntu_latest`
 
 ### Brand new install
 
 All releases will be posted on the github repo. To install the cli for the first time run the following command.
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/VeprUA/git-favorite-branch/main/bin/install.sh | sh -s v0.2.2 BUILD_TARGET
+export GFB_BUILD_TARGET=<target_string>; # Example export GFB_BUILD_TARGET="ubuntu_latest"
+export GFB_VERSION=<version_string>; # Example export GFB_VERSION="v0.2.2"
+curl https://raw.githubusercontent.com/VeprUA/git-favorite-branch/main/bin/install.sh | sh -s $GFB_VERSION $GFB_BUILD_TARGET
 ```
 
 You are also more than welcome and download the binary zip from the release page. Just make sure to put it in the `/usr/local/revent-studio/gfb-v0.2.2/` directory. That way an update can be done cleanly.
@@ -24,18 +55,21 @@ You are also more than welcome and download the binary zip from the release page
 Here is a helper script once you download your zip:
 
 ```bash
+export GFB_BUILD_TARGET=<target_string>; # Example export GFB_BUILD_TARGET="ubuntu_latest"
+export GFB_VERSION=<version_string>; # Example export GFB_VERSION="v0.2.2"
+
 # Unzip and give execute permission
-unzip gfb-BUILD_TARGET.zip
-chmod +x gfb-BUILD_TARGET/gfb
+unzip gfb-$GFB_BUILD_TARGET.zip
+chmod +x gfb-$GFB_BUILD_TARGET/gfb
 
 # Create an install directory
-sudo mkdir -p /usr/local/revent-studio/gfb-v0.2.2
+sudo mkdir -p /usr/local/revent-studio/gfb-$GFB_VERSION
 
 # Move the binary to the install directory
-sudo mv gfb-BUILD_TARGET/gfb /usr/local/revent-studio/gfb-v0.2.2/gfb
+sudo mv gfb-$GFB_BUILD_TARGET/gfb /usr/local/revent-studio/gfb-$GFB_VERSION/gfb
 
 # Create a symlink in the bin directroy
-sudo ln -s /usr/local/revent-studio/gfb-v0.2.2/gfb /usr/local/bin/gfb
+sudo ln -s /usr/local/revent-studio/gfb-$GFB_VERSION/gfb /usr/local/bin/gfb
 
 ```
 
@@ -46,7 +80,7 @@ Similar directions are used in the `bin/install.sh` file. You can always use tha
 It is very simple to update the current binary. You don't need to provide a build target as that is baked in during the build process.
 
 ```bash
- gfb install v0.2.2
+ gfb install
 ```
 
 ## Uninstall
@@ -54,7 +88,7 @@ It is very simple to update the current binary. You don't need to provide a buil
 You can always remove the cli from your machine by running the uninstall command in the `/bin` directory.
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/VeprUA/git-favorite-branch/main/bin/uninstall.sh | sh
+curl https://raw.githubusercontent.com/VeprUA/git-favorite-branch/main/bin/uninstall.sh | sh
 ```
 
 ## Build
@@ -89,26 +123,4 @@ cargo install --path .
 
 ```bash
 gfb
-```
-
-## Usage
-
-You can always run `gfb <SUBCOMMAND> -h` to get the latest usage.
-
-```
-gfb <SUBCOMMAND>
-
-OPTIONS:
-    -h, --help    Print help information
-
-SUBCOMMANDS:
-    add     <SHORTCUT_KEY> [BRANCH_NAME] Add current branch to favorites
-    del     <SHORTCUT_KEY>               Delete favorited branch
-    use     <SHORTCUT_KEY>               Switch to a different branch
-    prnt    <SHORTCUT_KEY>               Print out the favorited branch name
-    install <VERSION>                    Install specific version of the binary. Provide version number as a semver. ie v0.2.0
-    version                              Display the current binary version
-    clr                                  Clear all saved favorites
-    ls                                   Display all favorited branches and their keys
-    help                                 Print this message or the help of the given subcommand(s)
 ```
