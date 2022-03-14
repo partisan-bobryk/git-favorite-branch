@@ -1,6 +1,4 @@
-use gfb::{
-    args::Args, command_manager::CommandManager, config::Config, get_build_hash, get_default_path,
-};
+use gfb::{args::Args, command_manager::CommandManager, config::Config, get_default_path};
 use std::{collections::HashMap, env, process};
 
 fn main() {
