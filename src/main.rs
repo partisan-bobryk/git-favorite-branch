@@ -1,23 +1,5 @@
-use std::{collections::HashMap, env, path::Path};
-
-use gfb::{args::Args, command_manager::CommandManager, config::Config};
-
-fn get_default_path() -> String {
-    let ref home_dir = env::var("HOME").unwrap_or("".to_string());
-    let file_name = String::from(".git-favorite-branch-config");
-    let path_raw: String;
-    let default_path = match home_dir.len().cmp(&0) {
-        std::cmp::Ordering::Greater => {
-            path_raw = format!("{}/{}", home_dir, file_name).to_string();
-            Path::new(&path_raw)
-        }
-        _ => {
-            path_raw = format!("./{}", file_name).to_string();
-            Path::new(&path_raw)
-        }
-    };
-    String::from(default_path.to_str().unwrap())
-}
+use gfb::{args::Args, command_manager::CommandManager, config::Config, get_default_path};
+use std::{collections::HashMap, env, process};
 
 fn main() {
     let default_path = get_default_path();
@@ -63,6 +45,7 @@ fn main() {
         }
         Some(("ls", _)) => cmd_manager.list_branches(),
         Some(("clr", _)) => cmd_manager.clear_branches(),
+        Some(("version", _)) => cmd_manager.get_app_version(),
         Some(("prnt", sub_matches)) => {
             let key = sub_matches
                 .value_of("SHORTCUT_KEY")
@@ -73,14 +56,13 @@ fn main() {
             cmd_manager.print_branch_name(key);
         }
         Some(("install", sub_matches)) => {
-            let version = sub_matches
-                .value_of("VERSION")
-                .expect("version number is required")
-                .trim()
-                .to_string();
+            let version = sub_matches.value_of("VERSION");
 
             cmd_manager.install_binary(version).unwrap();
         }
-        _ => println!("Command doesn't exist"),
+        _ => {
+            eprintln!("Command does not exist");
+            process::exit(1)
+        }
     }
 }
