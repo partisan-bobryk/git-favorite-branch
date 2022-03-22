@@ -38,7 +38,7 @@ impl CommandManager {
         let ref state = self.config.state;
         state
             .into_iter()
-            .for_each(|(k, v)| println!("{} => {}", k, v))
+            .for_each(|(k, v)| println!("{} -> {}", k, v))
     }
 
     pub fn clear_branches(&mut self) {
@@ -52,12 +52,22 @@ impl CommandManager {
     }
 
     pub fn get_app_version(&self) {
-        if env::var("GFB_NO_UPDATE_CHECK").is_err() {
-            if self.has_new_update() {
-                eprintln!("New version available! Run `gfb install`");
-            }
+        if env::var("GFB_NO_UPDATE_CHECK").is_ok() {
+            println!("{}", self.config.version);
+            return;
         }
-        println!("{}", self.config.version);
+
+        let latest_version = get_latest_release_version();
+
+        if self.has_new_update(latest_version.clone()) {
+            eprintln!("New version available! Run `gfb install`");
+        }
+
+        println!(
+            "{} (Latest {})",
+            self.config.version,
+            latest_version.unwrap()
+        );
     }
 
     pub fn install_binary(&self, version: Option<&str>) -> Result<ExitStatus, std::io::Error> {
@@ -82,14 +92,13 @@ impl CommandManager {
         .status()
     }
 
-    pub fn has_new_update(&self) -> bool {
+    pub fn has_new_update(&self, new_version: Option<String>) -> bool {
         let current_version = &self.config.version;
-        let gh_latest_version = get_latest_release_version();
 
-        if gh_latest_version.is_none() {
+        if new_version.is_none() {
             return false;
         }
 
-        current_version.eq(&gh_latest_version.unwrap())
+        current_version.ne(&new_version.unwrap())
     }
 }

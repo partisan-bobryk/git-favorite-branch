@@ -58,5 +58,9 @@ pub fn get_latest_release_version() -> Option<String> {
         return None;
     }
 
-    Some(parsed_gh_release.unwrap()["tag_name"].to_string())
+    Some(
+        parsed_gh_release.unwrap()["tag_name"]
+            .to_string()
+            .replace("\"", ""),
+    )
 }
