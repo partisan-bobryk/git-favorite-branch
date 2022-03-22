@@ -19,7 +19,7 @@ chmod +x "$TMP_DIR/gfb"
 
 # Installation
 sudo mv "$TMP_DIR/gfb" $INSTALL_BIN
-sudo ln -s $INSTALL_BIN /usr/local/bin/gfb
+sudo ln -sf $INSTALL_BIN /usr/local/bin/gfb
 
 # Clean up
 rm -rf ./tmp

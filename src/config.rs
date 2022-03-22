@@ -24,7 +24,7 @@ impl Config {
         Config {
             state,
             path_to_config: path.to_string(),
-            version: String::from("v0.2.2"),
+            version: String::from("v0.2.3"),
             target: target.to_string(),
         }
     }
