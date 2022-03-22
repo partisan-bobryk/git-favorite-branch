@@ -8,13 +8,6 @@ fn main() {
     config.load();
 
     let mut cmd_manager = CommandManager { config };
-
-    if env::var("GFB_NO_UPDATE_CHECK").is_err() {
-        if cmd_manager.has_new_update() {
-            eprintln!("New version available! Run `gfb install`");
-        }
-    }
-
     let matches = Args::parse();
 
     match matches.subcommand() {

@@ -18,7 +18,7 @@ SUBCOMMANDS:
     use     <SHORTCUT_KEY>               Switch to a different branch
     prnt    <SHORTCUT_KEY>               Print out the favorited branch name
     install [VERSION]                    Install the latest version of gfb. You can also provide a different version using a `v0.2.2` format.
-    version                              Display the current binary version
+    version                              Display the current binary version. Also checks to see if there is a new release available.
     clr                                  Clear all saved favorites
     ls                                   Display all favorited branches and their keys
     help                                 Print this message or the help of the given subcommand(s)
@@ -28,7 +28,7 @@ SUBCOMMANDS:
 
 | Variable Name         | Type      | Description                                                                                                                                                                            |
 | --------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `GFB_NO_UPDATE_CHECK` | `boolean` | Silence messages about updates.                                                                                                                                                        |
+| `GFB_NO_UPDATE_CHECK` | `boolean` | Silence messages about new available releases.                                                                                                                                         |
 | `BUILD_TARGET`        | `string`  | An OS build target specified by GitHub Actions. Possible values are `macOS_latest` and `ubuntu_latest`. However, this value is only needed if you are building the binary from source. |
 
 ## Install

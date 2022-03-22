@@ -4,6 +4,7 @@ use crate::{
 };
 use std::{
     collections::HashMap,
+    env,
     io::{Error, ErrorKind},
     process::{exit, Command, ExitStatus},
 };
@@ -51,6 +52,11 @@ impl CommandManager {
     }
 
     pub fn get_app_version(&self) {
+        if env::var("GFB_NO_UPDATE_CHECK").is_err() {
+            if self.has_new_update() {
+                eprintln!("New version available! Run `gfb install`");
+            }
+        }
         println!("{}", self.config.version);
     }
 
