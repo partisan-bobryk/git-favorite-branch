@@ -17,7 +17,7 @@ SUBCOMMANDS:
     del     <SHORTCUT_KEY>               Delete favorited branch
     use     <SHORTCUT_KEY>               Switch to a different branch
     prnt    <SHORTCUT_KEY>               Print out the favorited branch name
-    install [VERSION]                    Install the latest version of gfb. You can also provide a different version using a `v0.2.3` format.
+    install [VERSION]                    Install the latest version of gfb. You can also provide a different version using a `v0.3.0` format.
     version                              Display the current binary version. Also checks to see if there is a new release available.
     clr                                  Clear all saved favorites
     ls                                   Display all favorited branches and their keys
@@ -46,17 +46,17 @@ All releases will be posted on the github repo. To install the cli for the first
 
 ```bash
 export GFB_BUILD_TARGET=<target_string>; # Example export GFB_BUILD_TARGET="ubuntu_latest"
-export GFB_VERSION=<version_string>; # Example export GFB_VERSION="v0.2.3"
+export GFB_VERSION=<version_string>; # Example export GFB_VERSION="v0.3.0"
 curl https://raw.githubusercontent.com/VeprUA/git-favorite-branch/main/bin/install.sh | sh -s $GFB_VERSION $GFB_BUILD_TARGET
 ```
 
-You are also more than welcome and download the binary zip from the release page. Just make sure to put it in the `/usr/local/revent-studio/gfb-v0.2.3/` directory. That way an update can be done cleanly.
+You are also more than welcome and download the binary zip from the release page. Just make sure to put it in the `/usr/local/revent-studio/gfb-v0.3.0/` directory. That way an update can be done cleanly.
 
 Here is a helper script once you download your zip:
 
 ```bash
 export GFB_BUILD_TARGET=<target_string>; # Example export GFB_BUILD_TARGET="ubuntu_latest"
-export GFB_VERSION=<version_string>; # Example export GFB_VERSION="v0.2.3"
+export GFB_VERSION=<version_string>; # Example export GFB_VERSION="v0.3.0"
 
 # Unzip and give execute permission
 unzip gfb-$GFB_BUILD_TARGET.zip
