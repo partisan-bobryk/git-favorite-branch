@@ -1,6 +1,6 @@
 use crate::{
     config::Config,
-    git_helpers::{get_latest_release_version, switch_branch},
+    git_helpers::{create_branch, get_latest_release_version, switch_branch},
 };
 use std::{
     collections::HashMap,
@@ -32,6 +32,16 @@ impl CommandManager {
     pub fn delete_branch(&mut self, key: String) {
         self.config.state.remove(&key).unwrap();
         self.config.save()
+    }
+
+    pub fn create_new_branch(&self, key: String) {
+        match self.config.state.get(&key) {
+            Some(branch_name) => create_branch(branch_name).unwrap(),
+            None => {
+                println!("No branch name set for key {}", key);
+                exit(1)
+            }
+        };
     }
 
     pub fn list_branches(&self) {

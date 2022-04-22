@@ -21,6 +21,13 @@ pub fn switch_branch(branch_name: &str) -> Result<ExitStatus, std::io::Error> {
         .status()
 }
 
+pub fn create_branch(branch_name: &str) -> Result<ExitStatus, std::io::Error> {
+    Command::new("sh")
+        .arg("-c")
+        .arg(format!("git checkout -b {:?}", branch_name))
+        .status()
+}
+
 pub fn get_local_hash() -> Result<Output, Error> {
     Command::new("sh")
         .arg("-c")
