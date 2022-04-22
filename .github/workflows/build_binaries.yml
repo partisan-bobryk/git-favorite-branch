@@ -1,4 +1,4 @@
-name: Rust
+name: Build Binaries
 
 on:
   push:
@@ -36,4 +36,3 @@ jobs:
             name: "gfb-${{matrix.os}}"
             path: target/release/
             if-no-files-found: warn
-    
