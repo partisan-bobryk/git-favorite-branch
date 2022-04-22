@@ -1,0 +1,16 @@
+name: Sync dev branch with main
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sync dev with main
+        run: git checkout dev && git merge main
