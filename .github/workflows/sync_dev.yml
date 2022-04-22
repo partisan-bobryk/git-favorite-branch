@@ -12,5 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
       - name: Sync dev with main
         run: git checkout dev && git merge main
