@@ -7,29 +7,25 @@ Quickly manage git branches during intensive multi-tasking work environments
 You can always run `gfb <SUBCOMMAND> -h` to get the latest usage.
 
 ```
-gfb <SUBCOMMAND>
+Tiny CLI for enforcing branching name strategy across multiple repositories
 
-OPTIONS:
-    -h, --help    Print help information
+Usage: gfb <COMMAND>
 
-SUBCOMMANDS:
-    add     <SHORTCUT_KEY> [BRANCH_NAME] Add current branch to favorites
-    del     <SHORTCUT_KEY>               Delete favorited branch
-    use     <SHORTCUT_KEY>               Switch to a different branch
-    prnt    <SHORTCUT_KEY>               Print out the favorited branch name
-    install [VERSION]                    Install the latest version of gfb. You can also provide a different version using a `v0.3.0` format.
-    version                              Display the current binary version. Also checks to see if there is a new release available.
-    clr                                  Clear all saved favorites
-    ls                                   Display all favorited branches and their keys
-    help                                 Print this message or the help of the given subcommand(s)
+Commands:
+  add      Add current branch to favorites
+  use      Switch to a different branch
+  del      Remove favorite branch
+  del-all  Delete all favorite branches
+  branch   Print Branch Name
+  new      Create a new branch that is named with a value for a given key
+  ls       List all favorite branches
+  help     Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help     Print help
+  -V, --version  Print version
+
 ```
-
-### Environment Variables
-
-| Variable Name         | Type      | Description                                                                                                                                                                            |
-| --------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `GFB_NO_UPDATE_CHECK` | `boolean` | Silence messages about new available releases.                                                                                                                                         |
-| `BUILD_TARGET`        | `string`  | An OS build target specified by GitHub Actions. Possible values are `macOS_latest` and `ubuntu_latest`. However, this value is only needed if you are building the binary from source. |
 
 ## Install
 
