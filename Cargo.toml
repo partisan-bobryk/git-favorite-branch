@@ -1,7 +1,14 @@
 [package]
-description = "Tiny CLI for enforcing branching name strategy across multiple repositories"
+authors = ["Revent Studio", "Maks Yadvinskyy <maks@revent.studio>"]
+categories = ["command-line-utilities"]
+description = "Tiny CLI for enforcing branching name strategy across multiple git repositories"
 edition = "2021"
+homepage = "https://github.com/15-pieces-of-flair/git-favorite-branch"
+keywords = ["git_tool", "branch", "git_branch", "multibranch", "managment"]
+license-file = "LICENSE.txt"
 name = "gfb"
+readme = "README.md"
+repository = "https://github.com/15-pieces-of-flair/git-favorite-branch"
 version = "1.0.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
