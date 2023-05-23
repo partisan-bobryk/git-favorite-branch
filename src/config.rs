@@ -13,19 +13,13 @@ pub struct Config {
     pub state: HashMap<String, String>,
     #[serde(default)]
     pub path_to_config: String,
-    #[serde(default)]
-    pub version: String,
-    #[serde(default)]
-    pub target: String,
 }
 
 impl Config {
-    pub fn new(path: &str, state: HashMap<String, String>, target: &str) -> Self {
+    pub fn new(path: &str, state: HashMap<String, String>) -> Self {
         Config {
             state,
             path_to_config: path.to_string(),
-            version: String::from("v0.3.0"),
-            target: target.to_string(),
         }
     }
 
@@ -51,14 +45,13 @@ impl Config {
 
         self.state = config.state;
         self.path_to_config = config.path_to_config;
-        self.target = config.target;
     }
 
     fn create_file_if_none_exist(&self, formatted_file_path: &Path) -> File {
         let file = match File::open(formatted_file_path) {
             Err(err) => {
-                println!("Failed to open config: {:?}", err);
-                println!(
+                eprintln!("Failed to open config: {:?}", err);
+                eprintln!(
                     "Creating new config {}",
                     formatted_file_path.to_str().unwrap()
                 );

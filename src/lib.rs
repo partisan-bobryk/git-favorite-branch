@@ -2,7 +2,7 @@ use std::{env, path::Path, process};
 
 use git_helpers::get_local_hash;
 
-pub mod args;
+pub mod cli_definitions;
 pub mod command_manager;
 pub mod config;
 pub mod git_helpers;
