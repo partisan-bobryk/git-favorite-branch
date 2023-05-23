@@ -1,77 +1,38 @@
-use gfb::{args::Args, command_manager::CommandManager, config::Config, get_default_path};
-use std::{collections::HashMap, env, process};
+use clap::Parser;
+use gfb::{
+    cli_definitions::{Cli, Commands},
+    command_manager::CommandManager,
+    config::Config,
+    get_default_path,
+    git_helpers::get_current_branch,
+};
+use std::collections::HashMap;
 
 fn main() {
     let default_path = get_default_path();
-    let build_target = option_env!("BUILD_TARGET").unwrap_or("");
-    let mut config = Config::new(&default_path, HashMap::new(), &build_target);
+    let mut config = Config::new(&default_path, HashMap::new());
     config.load();
 
     let mut cmd_manager = CommandManager { config };
-    let matches = Args::parse();
+    let cli = Cli::parse();
 
-    match matches.subcommand() {
-        Some(("add", sub_matches)) => {
-            let key = sub_matches
-                .value_of("SHORTCUT_KEY")
-                .expect("required")
-                .trim()
-                .to_string();
-            let branch = sub_matches
-                .value_of("BRANCH_NAME")
-                .expect("default branch required")
-                .trim()
-                .to_string();
+    match &cli.command {
+        Commands::Add { key, branch_name } => {
+            let branch = match branch_name {
+                Some(v) => v.trim().to_owned(),
+                None => get_current_branch().to_owned(),
+            };
 
-            cmd_manager.add_branch(key, branch);
+            cmd_manager.add_branch(key.trim().to_owned(), branch)
         }
-        Some(("use", sub_matches)) => {
-            let key = sub_matches
-                .value_of("SHORTCUT_KEY")
-                .expect("required")
-                .trim()
-                .to_string();
-
-            cmd_manager.switch_to_branch(key);
-        }
-        Some(("del", sub_matches)) => {
-            let key = sub_matches
-                .value_of("SHORTCUT_KEY")
-                .expect("required")
-                .trim()
-                .to_string();
-
-            cmd_manager.delete_branch(key);
-        }
-        Some(("new", sub_matches)) => {
-            let key = sub_matches
-                .value_of("SHORTCUT_KEY")
-                .expect("required")
-                .trim()
-                .to_string();
-
-            cmd_manager.create_new_branch(key);
-        }
-        Some(("ls", _)) => cmd_manager.list_branches(),
-        Some(("clr", _)) => cmd_manager.clear_branches(),
-        Some(("version", _)) => cmd_manager.get_app_version(),
-        Some(("prnt", sub_matches)) => {
-            let key = sub_matches
-                .value_of("SHORTCUT_KEY")
-                .expect("required")
-                .trim()
-                .to_string();
-
-            cmd_manager.print_branch_name(key);
-        }
-        Some(("install", sub_matches)) => {
-            let version = sub_matches.value_of("VERSION");
-
-            cmd_manager.install_binary(version).unwrap();
-        }
-        _ => {
-            eprintln!("Command does not exist");
-            process::exit(1)
-        }
+        Commands::Use { key } => cmd_manager.switch_to_branch(key.trim().to_owned()),
+        Commands::Del { key } => cmd_manager.delete_branch(key.trim().to_owned()),
+        Commands::DelAll => cmd_manager.clear_branches(),
+        Commands::Branch { key } => match key {
+            Some(v) => cmd_manager.print_branch_name(v.trim().to_owned()),
+            None => print!("{}", get_current_branch()),
+        },
+        Commands::New { key } => cmd_manager.create_new_branch(key.trim().to_owned()),
+        Commands::Ls => cmd_manager.list_branches(),
     }
 }
