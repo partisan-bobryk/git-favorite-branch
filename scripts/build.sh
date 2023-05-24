@@ -50,7 +50,7 @@ keychain_password="dfk3zyg_mby_HAP8hqm"
 security create-keychain -p "$keychain_password" build.keychain
 security default-keychain -s build.keychain
 
-security unlock-keychain -p <your-password >build.keychain
+security unlock-keychain -p "$keychain_password" build.keychain
 security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
 
 security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$keychain_password" build.keychain
