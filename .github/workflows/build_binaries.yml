@@ -1,4 +1,4 @@
-name: Build Release
+name: Release
 on:
   workflow_dispatch:
   push:
@@ -58,3 +58,11 @@ jobs:
             ${{ steps.build-n-package.outputs.DIST_PATH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to Crates.io
+        if: steps.is-release.outputs.IS_RELEASE
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          # Push binary to crates.io
+          cargo publish --token "$CARGO_REGISTRY_TOKEN"
