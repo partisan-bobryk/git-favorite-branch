@@ -45,9 +45,11 @@ cargo build --release --target "$build_target"
 # Decode certificate
 echo $MACOS_CERTIFICATE | base64 --decode >certificate.p12
 
-ls -al .
+pwd
 
 ls -al "./${build_path}"
+
+echo "DONE!!! START SIGNING!"
 # Temporary password for a temporary keychain
 keychain_password="dfk3zyg_mby_HAP8hqm"
 security create-keychain -p "$keychain_password" build.keychain
