@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -exv
+set -e
 
 # Get new version from the tag
 tag_version=$(git tag --points-at HEAD | grep -m 1 "^release/v.*" || true)
@@ -31,7 +31,7 @@ git push origin
 
 build_version="v${tag_version}"
 build_target="x86_64-apple-darwin"
-build_path="target/release"
+build_path="target/${build_target}/release"
 binary_name="gfb"
 build_basename="${binary_name}-${build_version}-${build_target}"
 archive_path="${build_path}/${build_basename}"
@@ -45,11 +45,6 @@ cargo build --release --target "$build_target"
 # Decode certificate
 echo $MACOS_CERTIFICATE | base64 --decode >certificate.p12
 
-pwd
-
-ls -al "./${build_path}"
-
-echo "DONE!!! START SIGNING!"
 # Temporary password for a temporary keychain
 keychain_password="dfk3zyg_mby_HAP8hqm"
 security create-keychain -p "$keychain_password" build.keychain
@@ -61,8 +56,6 @@ security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /
 security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$keychain_password" build.keychain
 /usr/bin/codesign --force -s "$APPLE_DEVELOPER_ID" "./${build_path}/${binary_name}" -v
 
-echo "Done Codesigning"
-pwd
 #
 # Package Signed Binary
 #
