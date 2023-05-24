@@ -1,4 +1,4 @@
-name: Release Build
+name: Build Release
 on:
   workflow_dispatch:
   push:
@@ -25,7 +25,6 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
         with:
-          ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Rust toolchain

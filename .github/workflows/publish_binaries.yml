@@ -1,4 +1,4 @@
-name: Publish Release
+name: Publish Release To Third Parties
 on:
   workflow_dispatch:
   push:
