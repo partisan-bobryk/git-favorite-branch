@@ -44,3 +44,18 @@ jobs:
         with:
           name: ${{ steps.build-n-package.outputs.DIST_FILENAME }}
           path: ${{ steps.build-n-package.outputs.DIST_PATH }}
+
+      - name: Check for release
+        id: is-release
+        run: |
+          unset IS_RELEASE ; if [[ $GITHUB_REF =~ ^refs/tags/release/v[0-9].* ]]; then IS_RELEASE='true' ; fi
+          echo "IS_RELEASE=${IS_RELEASE}" >> $GITHUB_OUTPUT
+
+      - name: Publish archives and packages to Github
+        uses: softprops/action-gh-release@v1
+        if: steps.is-release.outputs.IS_RELEASE
+        with:
+          files: |
+            ${{ steps.build-n-package.outputs.DIST_PATH }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
