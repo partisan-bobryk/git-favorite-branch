@@ -22,9 +22,12 @@ printf "Resolving versions v%s -> v%s\n" $toml_version $tag_version
 # Update Cargo.toml file with new version
 cat Cargo.toml | sed "s/version = \"${toml_version}\"$/version = \"${tag_version}\"" >Cargo2.toml
 mv Cargo2.toml Cargo.toml
-git add Cargo.toml
-git commit -m "Bumping version to v${tag_version}"
-git push
+
+# Push these changes to main
+git config user.name "Revent Studio Github Bot"
+git config user.email bot@revent.studio
+git commit -am "Bumping version to v${tag_version}"
+git push origin
 
 build_version="v${tag_version}"
 build_target="x86_64-apple-darwin"
