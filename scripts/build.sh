@@ -67,7 +67,7 @@ pushd "${build_path}" >/dev/null
 tar -czf "${build_basename}.tar.gz" "${build_basename}"/*
 
 # Echo the sha. We will need it for homebrew
-shasum "${build_basename}.tar.gz"
+shasum -a 256 "${build_basename}.tar.gz"
 popd >/dev/null
 
 # Let subsequent steps know where to find the distribution
