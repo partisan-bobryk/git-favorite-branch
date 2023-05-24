@@ -23,12 +23,6 @@ printf "Resolving versions v%s -> v%s\n" $toml_version $tag_version
 cat Cargo.toml | sed "s/version = \"${toml_version}\"$/version = \"${tag_version}\"/" >Cargo2.toml
 mv Cargo2.toml Cargo.toml
 
-# Push these changes to main
-git config user.name "Revent Studio Github Bot"
-git config user.email bot@revent.studio
-git commit -am "Bumping version to v${tag_version}"
-git push origin
-
 build_version="v${tag_version}"
 build_target="x86_64-apple-darwin"
 build_path="target/${build_target}/release"
@@ -79,6 +73,12 @@ popd >/dev/null
 # Let subsequent steps know where to find the distribution
 echo "DIST_FILENAME=${build_basename}.tar.gz" >>$GITHUB_OUTPUT
 echo "DIST_PATH=${build_path}/${build_basename}.tar.gz" >>$GITHUB_OUTPUT
+
+# Push these changes to main
+git config user.name "Revent Studio Github Bot"
+git config user.email bot@revent.studio
+git commit -am "Bumping version to v${tag_version}"
+git push origin
 
 # Tag the binary as a new version
 git tag "${build_version}"
