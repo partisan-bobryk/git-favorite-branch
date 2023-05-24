@@ -49,7 +49,7 @@ security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /
 
 security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$keychain_password" build.keychain
 /usr/bin/codesign --force -s "$APPLE_DEVELOPER_ID" "./${build_path}/${binary_name}" -v
-
+rm certificate.p12
 #
 # Package Signed Binary
 #
