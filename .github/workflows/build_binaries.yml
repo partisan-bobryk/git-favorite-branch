@@ -1,5 +1,6 @@
 name: Perform a Release
 on:
+  workflow_dispatch:
   push:
     tags:
       - "release/v*"
@@ -23,11 +24,6 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
-
-      - name: Install prerequisites
-        shell: bash
-        run: |
-          sudo apt-get -y update
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
