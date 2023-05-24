@@ -20,6 +20,7 @@ jobs:
   build_macos:
     name: Building for MacOS
     runs-on: macos-12
+    needs: test
 
     steps:
       - name: Checkout source code
