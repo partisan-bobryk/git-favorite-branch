@@ -1,38 +1,47 @@
-name: Build Binaries
-
+name: Perform a Release
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags:
+      - "release/v*"
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run tests
+        run: cargo test --verbose
+
+  build_macos:
+    name: Building for MacOS
+    runs-on: macos-12
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Run tests
-      run: cargo test --verbose
-  build:
-    name: "Build git-branch-favorite on ${{matrix.os}}"
-    runs-on: ${{matrix.os}}
-    env:
-      BUILD_TARGET: ${{matrix.os}}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macOS-latest]
-        
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build Dist
-        run: cargo build --release --verbose
-      - name: Upload Dist
-        uses: actions/upload-artifact@v2
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Install prerequisites
+        shell: bash
+        run: |
+          sudo apt-get -y update
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build and Package
+        id: build-n-package
+        env:
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_DEVELOPER_ID_CERTIFICATE }}
+          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_DEVELOPER_ID_CERTIFICATE_PWD }}
+        shell: bash
+        run: bash ./scripts/build.sh
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@master
         with:
-            name: "gfb-${{matrix.os}}"
-            path: target/release/
-            if-no-files-found: warn
+          name: ${{ steps.build-n-package.outputs.DIST_FILENAME }}
+          path: ${{ steps.build-n-package.outputs.DIST_PATH }}

@@ -1,4 +1,4 @@
-# git-favorite-branch
+# Git Favorite Branch
 
 Quickly manage git branches during intensive multi-tasking work environments
 
@@ -29,16 +29,15 @@ Options:
 
 ## Install
 
-### Build Targets
+### Using Cargo
 
-While building the distribution, we leverage GH Actions to build on multiple OS. Here are all of the available build targets. **Replace `<target_string>` keyword with the target that best suites your operating system**
+```bash
+cargo install gfb
+```
 
-- `macOS_latest`
-- `ubuntu_latest`
+### Using Homebrew
 
-### Brand new install
-
-Work in progress
+Still in development. Check back at a later date.
 
 ## Build
 
@@ -53,7 +52,7 @@ Installation Instructions
 1. Clone this repo
 
 ```bash
-git clone git@github.com:VeprUA/git-favorite-branch.git
+git clone git@github.com:byte-partisan/git-favorite-branch.git
 ```
 
 2. Build
