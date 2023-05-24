@@ -35,9 +35,12 @@ Options:
 cargo install gfb
 ```
 
-### Using Homebrew
+### Using Homebrew (MacOS Only)
 
-Still in development. Check back at a later date.
+```bash
+brew tap revent-studio/tap
+brew install gfb
+```
 
 ## Build
 
