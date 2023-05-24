@@ -35,7 +35,28 @@ archive_path="${build_path}/${build_basename}"
 
 cargo build --release --target "$build_target"
 
+#
 # Signing the binary
+#
+
+# Decode certificate
+echo $MACOS_CERTIFICATE | base64 --decode >certificate.p12
+
+# Temporary password for a temporary keychain
+keychain_password="dfk3zyg_mby_HAP8hqm"
+security create-keychain -p "$keychain_password" build.keychain
+security default-keychain -s build.keychain
+
+security unlock-keychain -p <your-password >build.keychain
+security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
+
+security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$keychain_password" build.keychain
+identity_id=$(security find-identity -v)
+/usr/bin/codesign --force -s "$identity_id" "${build_path}/${binary_name}" -v
+
+#
+# Package Signed Binary
+#
 
 # Create a directory that will be then zipped together and distributed
 mkdir -p "$archive_path"
