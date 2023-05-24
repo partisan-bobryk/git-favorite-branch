@@ -3,7 +3,7 @@
 set -e
 
 # Get new version from the tag
-tag_version=$(git tag --points-at HEAD | grep -m 1 "^release/v.*" -)
+tag_version=$(git tag --points-at HEAD | grep -m 1 "^release/v.*" || true)
 # Remove release prefix
 tag_version=$(echo "$tag_version" | sed 's/release\/v//g')
 # Get current version from Cargo.toml
@@ -12,15 +12,15 @@ toml_version=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0]
 if [ -z "$tag_version" ]; then
     tag_version="$toml_version"
     IFS=. read MAJOR MINOR PATCH <<<"${tag_version}"
-    let PATCH++
     unset IFS
+    ((PATCH = PATCH + 1))
     tag_version="${MAJOR}.${MINOR}.${PATCH}"
 fi
 
 printf "Resolving versions v%s -> v%s\n" $toml_version $tag_version
 
 # Update Cargo.toml file with new version
-cat Cargo.toml | sed "s/version = \"${toml_version}\"$/version = \"${tag_version}\"" >Cargo2.toml
+cat Cargo.toml | sed "s/version = \"${toml_version}\"$/version = \"${tag_version}\"/" >Cargo2.toml
 mv Cargo2.toml Cargo.toml
 
 # Push these changes to main
