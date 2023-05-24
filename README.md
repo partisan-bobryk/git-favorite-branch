@@ -52,7 +52,7 @@ Installation Instructions
 1. Clone this repo
 
 ```bash
-git clone git@github.com:VeprUA/git-favorite-branch.git
+git clone git@github.com:byte-partisan/git-favorite-branch.git
 ```
 
 2. Build
