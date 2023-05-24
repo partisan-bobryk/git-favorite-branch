@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -exv
 
 # Get new version from the tag
 tag_version=$(git tag --points-at HEAD | grep -m 1 "^release/v.*" || true)
@@ -45,6 +45,9 @@ cargo build --release --target "$build_target"
 # Decode certificate
 echo $MACOS_CERTIFICATE | base64 --decode >certificate.p12
 
+ls -al .
+
+ls -al "./${build_path}"
 # Temporary password for a temporary keychain
 keychain_password="dfk3zyg_mby_HAP8hqm"
 security create-keychain -p "$keychain_password" build.keychain
@@ -66,7 +69,7 @@ pwd
 mkdir -p "$archive_path"
 
 # Include files in the distribution artifact
-cp "${build_path}/${binary_name}" "${archive_path}/${binary_name}"
+mv "${build_path}/${binary_name}" "${archive_path}/${binary_name}"
 cp README.md "${archive_path}/README.md"
 cp LICENSE.txt "${archive_path}/LICENSE.txt"
 
