@@ -20,15 +20,13 @@ jobs:
   build_macos:
     name: Building for MacOS
     runs-on: macos-12
-    permissions:
-      pull-requests: write
-      id-token: write
-      contents: read
     needs: test
 
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
