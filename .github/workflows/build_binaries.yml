@@ -33,8 +33,15 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build and Package
+        id: build-n-package
         env:
           MACOS_CERTIFICATE: ${{ secrets.MACOS_DEVELOPER_ID_CERTIFICATE }}
           MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_DEVELOPER_ID_CERTIFICATE_PWD }}
         shell: bash
         run: bash ./scripts/build.sh
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ steps.build-n-package.outputs.DIST_FILENAME }}
+          path: ${{ steps.build-n-package.outputs.DIST_PATH }}

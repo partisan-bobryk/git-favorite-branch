@@ -75,8 +75,8 @@ shasum "${build_basename}.tar.gz"
 popd >/dev/null
 
 # Let subsequent steps know where to find the distribution
-echo "DIST_PATH=${build_path}" >>$GITHUB_OUTPUT
 echo "DIST_FILENAME=${build_basename}.tar.gz" >>$GITHUB_OUTPUT
+echo "DIST_PATH=${build_path}/${build_basename}.tar.gz" >>$GITHUB_OUTPUT
 
 # Tag the binary as a new version
 git tag "${build_version}"
