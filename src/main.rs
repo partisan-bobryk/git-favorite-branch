@@ -20,7 +20,7 @@ fn main() {
         Commands::Add { key, branch_name } => {
             let branch = match branch_name {
                 Some(v) => v.trim().to_owned(),
-                None => get_current_branch().to_owned(),
+                None => get_current_branch().trim().to_owned(),
             };
 
             cmd_manager.add_branch(key.trim().to_owned(), branch)

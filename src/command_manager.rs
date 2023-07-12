@@ -56,6 +56,6 @@ impl CommandManager {
 
     pub fn print_branch_name(&self, key: String) {
         let branch_name = self.config.state.get(&key).unwrap();
-        println!("{}", branch_name);
+        print!("{}", branch_name);
     }
 }
